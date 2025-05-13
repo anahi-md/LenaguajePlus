@@ -1,0 +1,8 @@
+*.webm
+*.wav
+*.mp3
+*.db
+__pycache__/
+*.pyc
+.env
+venv/

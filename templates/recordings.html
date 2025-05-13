@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="recordings-container">
+    <div class="translator-header">
+        <img src="{{ url_for('static', filename='css/assets/Lenaguaje.svg') }}" alt="Lenguaje+ Logo" class="translator-logo">
+        <h2> Mis Grabaciones</h2>
+    </div>
+    <div class="recordings-scroll">
+        {% if recordings %}
+        <div class="recordings-list">
+            {% for recording in recordings %}
+            <div class="recording-item">
+                <div class="recording-info">
+                    <div class="recording-date">
+                        <i class="far fa-calendar-alt"></i> {{ recording[4] }}
+                    </div>
+                    <div class="recording-text">
+                        <strong>Original:</strong> {{ recording[1] | truncate(100) }}
+                    </div>
+                    <div class="recording-text">
+                        <strong>Traducción:</strong> {{ recording[2] | truncate(100) }}
+                    </div>
+                </div>
+                <div class="recording-actions">
+                    <audio controls style="width: 100%; margin-top: 10px;">
+                        <source src="{{ url_for('play_recording', id=recording[0]) }}" type="audio/mpeg">
+                        Tu navegador no soporta audio.
+                    </audio>
+                    <form action="{{ url_for('delete_recording', id=recording[0]) }}" method="POST" class="delete-form" style="margin-top: 10px;">
+                        <button type="submit" class="btn-delete" onclick="return confirm('¿Eliminar esta grabación?')">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </button>
+                    </form>
+                </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+  {% else %}
+  <div class="empty-state">
+    <i class="fas fa-microphone-slash empty-icon"></i>
+    <p class="empty-message">No tienes grabaciones aún.</p>
+    <a href="{{ url_for('index') }}" class="empty-action-btn">
+        <i class="fas fa-microphone"></i> Crear nueva grabación
+    </a>
+  </div>
+  {% endif %}
+</div>
+
+<style>
+
+.recordings-container {
+    font-family: sans-serif;
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    width: 100%;
+    height: 90vh;
+    max-width: none;
+    margin: 10px 10px 10px 10px;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    overflow: hidden;
+}
+
+.recordings-scroll {
+  max-height: 70vh;
+  overflow-y: auto;
+  padding-right: 10px;
+  margin-top: 1rem;
+  flex: 1;
+}
+
+
+.recordings-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+
+.recording-item {
+    background: #f9f9f9e2;
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+  
+.recording-text, .recording-date {
+    margin-bottom: 8px;
+}
+
+.recording-date {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.recording-text {
+    font-size: 1rem;
+    margin: 0.2rem 0;
+    line-height: 1.4;
+}
+
+.recording-text strong {
+    display: inline-block;
+    min-width: 80px;
+    color: #333;
+}
+.recording-actions {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+audio {
+    width: 100%;
+    border-radius: 6px;
+    background-color: #eee;
+}
+
+.delete-form button {
+    padding: 6px 12px;
+    background: #bfbfbf;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.delete-form button:hover {
+  background: #407bba;
+}
+
+.empty-state {
+    text-align: center;
+    width: 100%;
+    height: 90%;  
+    padding: 40px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.empty-icon {
+    font-size: 64px;
+    color: #ccc;
+    margin-bottom: 20px;
+}
+
+.empty-message {
+    font-size: 1.3rem;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.empty-action-btn {
+    display: inline-block;
+    padding: 12px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #3498db;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.empty-action-btn:hover {
+    background-color: #2980b9;
+}
+
+</style>
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="translator-header">
+        <img src="{{ url_for('static', filename='css/assets/Lenaguaje.svg') }}" alt="Lenguaje+ Logo" class="translator-logo">
+        <h1 class="dashboard-title">Panel de Administración</h1>
+    </div>
+    
+
+    <div class="user-grid">
+        {% for user in users %}
+        <div class="user-card">
+            <h3>{{ user[1] }}</h3>
+            <p><strong>Email:</strong> {{ user[2] }}</p>
+            <p><strong>Rol:</strong> {{ user[3] }}</p>
+            {% if user[3] != 'admin' %}
+  <form method="POST" action="{{ url_for('make_admin', user_id=user[0]) }}">
+    <button type="submit" class="btn-promote">Hacer admin</button>
+  </form>
+  {% endif %}
+</div>
+{% endfor %}
+</div>
+
+<style>
+.dashboard-container {
+    width: 100%;
+    height: 90%;
+    max-width: none;
+    margin: 30px auto;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.dashboard-title {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.user-card {
+    background: #f7f9fc;
+    border: 1px solid #dde3ea;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.user-card h3 {
+    margin-bottom: 10px;
+    color: #2f4858;
+}
+
+.user-card p {
+    margin: 5px 0;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.btn-promote {
+  margin-top: 10px;
+  background-color: #f7f9fc;
+  color: rgb(0, 0, 0);
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn-promote:hover {
+  background-color: #407bba;
+  color: #f4f4f4;
+  fill: #f4f4f4;
+}
+
+</style>
+{% endblock %}
+

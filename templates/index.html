@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{%block content%}
+<div class="translator-container">
+    <div class="translator-header">
+        <img src="{{ url_for('static', filename='css/assets/Lenaguaje.svg') }}" alt="Lenguaje+ Logo" class="translator-logo">
+    </div>
+    <div class="translator-controls">
+        <button class="tab active" onclick="console.log('Botón Grabar clickeado'); startRecording()">Grabar<br></button>
+        <button class="tab active"onclick="stopRecording()">Detener<br></button>
+        <button class="tab active" onclick="sendRecording()">Enviar<br></button>
+    </div>
+
+    <div class="language-bar">
+        <div class="lang-select">
+            <select id="source-lang" name="source_lang">            
+                <option value="en">Inglés</option>
+                <option value="es">Español</option>
+                <option value="fr">Francés</option>
+                <option value="de">Alemán</option>
+                <option value="it">Italiano</option>
+                <option value="pt">Portugués</option>
+            </select>
+        </div>
+        <button class="switch-btn">⇄</button>
+        <div class="lang-select">
+            <select id="target-lang" name="target_lang">
+                <option value="en">Inglés</option>
+                <option value="es">Español</option>
+                <option value="fr">Francés</option>
+                <option value="de">Alemán</option>
+                <option value="it">Italiano</option>
+                <option value="pt">Portugués</option>
+            </select>
+        </div>
+    </div>
+    <div class="translation-panels">
+        <div class="panel">
+            <div class="translated-text">
+                <output id="recognized-text"> Esperando grabación...</output>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="translated-text">
+                <output id="translated-text">Traducción...</output>
+            </div>
+            <div id="audio-container" style="display: none; margin-top: 10px;">
+                <button id="play-audio" class="tab active" title="Reproducir audio traducido">Escuchar traducción</button>
+                <audio id="audio-player" style="display: none;"></audio>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.translator-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+  
+.translator-container {
+    font-family: sans-serif;
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    width: 100%;
+    height: 90%;
+    max-width: none;
+    margin: 0;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+  
+.translator-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+  
+.translator-controls:hover {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.tab {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background: #f9f9f9;
+    border-radius: 6px;
+    text-align: left;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+}
+  
+.tab span {
+    display: block;
+    font-weight: normal;
+    color: #777;
+    font-size: 12px;
+}
+  
+.tab.active {
+    border: 2px solid #407bba;
+    background: #eef3fc;
+}
+  
+.language-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+  
+.lang-select select {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    min-width: 160px;
+    font-size: 14px;
+}
+  
+.switch-btn {
+    background: #f0f0f0;
+    border: none;
+    padding: 8px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+  
+.translation-panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+}
+  
+.panel textarea {
+    width: 100%;
+    height: 250px;
+    padding: 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    resize: vertical;
+}
+  
+.translated-text {
+    width: 100%;
+    height: 250px;
+    padding: 15px;
+    font-size: 16px;
+    background: #f8f9fa;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    white-space: pre-wrap;
+    align-items: flex-start;
+}
+</style>
+{%endblock%}
